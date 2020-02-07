@@ -1,0 +1,9 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8000
+spring:
+  application:
+    name: leave
+  profiles:
+    active: dev
