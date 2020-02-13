@@ -1,5 +1,7 @@
 package com.yeahzee.lab.leave.domain.leave;
 
+import com.yeahzee.lab.leave.domain.leave.entity.Leave;
+
 /**
  * 领域服务接口定义
  *
@@ -8,6 +10,6 @@ package com.yeahzee.lab.leave.domain.leave;
  */
 public interface ILeaveDomainService {
 
-    Integer createLeave();
+    Integer createLeave(Leave leave);
 
 }

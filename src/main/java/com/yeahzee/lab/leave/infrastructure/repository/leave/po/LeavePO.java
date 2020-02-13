@@ -1,30 +1,11 @@
-package com.yeahzee.lab.leave.domain.leave.entity;
+package com.yeahzee.lab.leave.infrastructure.repository.leave.po;
 
-/**
- * 聚合根实体
- *
- */
-
-import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Status;
-
-/**
- * 请假单信息
- */
-public class Leave {
+public class LeavePO {
     Integer id;
     String leaveType;
     String startTime;
     String endTime;
     Long duration;
-    Status status;
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public Integer getId() {
         return id;

@@ -1,10 +1,19 @@
 package com.yeahzee.lab.leave.application.dto;
 
 public class LeaveDTO {
+    Integer id;
     String leaveType;
     String startTime;
     String endTime;
-    long duration;
+    Long duration;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getLeaveType() {
         return leaveType;
@@ -30,11 +39,11 @@ public class LeaveDTO {
         this.endTime = endTime;
     }
 
-    public long getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 }
