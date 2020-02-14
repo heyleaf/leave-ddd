@@ -1,49 +1,43 @@
 package com.yeahzee.lab.leave.infrastructure.repository.leave.po;
 
+import com.yeahzee.lab.leave.domain.leave.entity.Leave;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveType;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Status;
+import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonType;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Table(name = "Leave")
+@Data
 public class LeavePO {
-    Integer id;
-    String leaveType;
-    String startTime;
-    String endTime;
-    Long duration;
 
-    public Integer getId() {
-        return id;
+    @Id
+    @GenericGenerator(name="idGenerator", strategy="uuid") //这个是hibernate的注解/生成32位UUID
+    @GeneratedValue(generator="idGenerator")
+    String id;
+    String applicantId;
+    String applicantName;
+    @Enumerated(EnumType.STRING)
+    PersonType applicantType;
+    String approverId;
+    String approverName;
+    @Enumerated(EnumType.STRING)
+    LeaveType leaveType;
+    @Enumerated(EnumType.STRING)
+    Status status;
+    Date startTime;
+    Date endTime;
+    long duration;
+    @Transient
+    List<ApprovalInfoPO> historyApprovalInfoPOList;
+
+    public Leave toLeave() {
+        return new Leave();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLeaveType() {
-        return leaveType;
-    }
-
-    public void setLeaveType(String leaveType) {
-        this.leaveType = leaveType;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public Long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Long duration) {
-        this.duration = duration;
-    }
 }

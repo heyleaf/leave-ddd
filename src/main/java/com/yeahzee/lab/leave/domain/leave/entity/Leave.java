@@ -5,64 +5,70 @@ package com.yeahzee.lab.leave.domain.leave.entity;
  *
  */
 
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Applicant;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Status;
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 请假单信息
  */
+@Data
 public class Leave {
-    Integer id;
-    String leaveType;
-    String startTime;
-    String endTime;
-    Long duration;
+    String id;
+    Applicant applicant;
+    Approver approver;
+    LeaveType type;
     Status status;
+    Date startTime;
+    Date endTime;
+    long duration;
+    //审批领导的最大级别
+    int leaderMaxLevel;
+    ApprovalInfo currentApprovalInfo;
+    List<ApprovalInfo> historyApprovalInfos;
 
-    public Status getStatus() {
-        return status;
+    public long getDuration() {
+        return endTime.getTime() - startTime.getTime();
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public Leave addHistoryApprovalInfo(ApprovalInfo approvalInfo) {
+        if (null == historyApprovalInfos)
+            historyApprovalInfos = new ArrayList<>();
+        this.historyApprovalInfos.add(approvalInfo);
+        return this;
     }
 
-    public Integer getId() {
-        return id;
+    public Leave create(){
+        this.setStatus(Status.APPROVING);
+        this.setStartTime(new Date());
+        return this;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Leave agree(Approver nextApprover){
+        this.setStatus(Status.APPROVING);
+        this.setApprover(nextApprover);
+        return this;
     }
 
-    public String getLeaveType() {
-        return leaveType;
+    public Leave reject(Approver approver){
+        this.setApprover(approver);
+        this.setStatus(Status.REJECTED);
+        this.setApprover(null);
+        return this;
     }
 
-    public void setLeaveType(String leaveType) {
-        this.leaveType = leaveType;
+    public Leave finish(){
+        this.setApprover(null);
+        this.setStatus(Status.APPROVED);
+        this.setEndTime(new Date());
+        this.setDuration(this.getEndTime().getTime() - this.getStartTime().getTime());
+        return this;
     }
 
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public Long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Long duration) {
-        this.duration = duration;
-    }
 }

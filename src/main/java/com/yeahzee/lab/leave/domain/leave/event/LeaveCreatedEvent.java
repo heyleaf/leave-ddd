@@ -1,5 +1,7 @@
 package com.yeahzee.lab.leave.domain.leave.event;
 
+import com.yeahzee.lab.common.event.DomainEvent;
+
 /**
  * 领域事件
  *
@@ -15,5 +17,5 @@ package com.yeahzee.lab.leave.domain.leave.event;
  * 2. 应用事件属于界限上下文之间的事件，用于界限上下文之间的消息传递。
  * 3. 通常一个界限上下文对应一个微服务，则应用事件被发布后，应当只由其他微服务订阅和消费。
  */
-public class LeaveCreatedEvent {
+public class LeaveCreatedEvent extends DomainEvent {
 }
