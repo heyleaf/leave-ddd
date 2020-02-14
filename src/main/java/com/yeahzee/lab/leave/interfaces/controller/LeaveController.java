@@ -1,9 +1,9 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
+import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
-import com.yeahzee.lab.leave.application.dto.LeaveDTO;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.query.LeaveQueryService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class LeaveController {
 
     @PostMapping("/{leaveId}")
     public Response findById(@PathVariable String leaveId){
-        com.yeahzee.lab.leave.query.dto.LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(leaveId);
+        LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(leaveId);
         return Response.ok(leaveDTO);
     }
 
@@ -76,7 +76,7 @@ public class LeaveController {
      */
     @PostMapping("/query/applicant/{applicantId}")
     public Response queryByApplicant(@PathVariable String applicantId){
-        List<com.yeahzee.lab.leave.query.dto.LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(applicantId);
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(applicantId);
         return Response.ok(leaveDTOList);
     }
 
@@ -87,7 +87,7 @@ public class LeaveController {
      */
     @PostMapping("/query/approver/{approverId}")
     public Response queryByApprover(@PathVariable String approverId){
-        List<com.yeahzee.lab.leave.query.dto.LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverId);
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverId);
         return Response.ok(leaveDTOList);
     }
 }

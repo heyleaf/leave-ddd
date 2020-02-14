@@ -1,7 +1,7 @@
 package com.yeahzee.lab.leave.application.command;
 
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
-import com.yeahzee.lab.leave.domain.person.service.PersonDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PersonCommandService {
 
     @Autowired
-    PersonDomainService personDomainService;
+    IPersonDomainService personDomainService;
 
     public void create(Person person) {
         personDomainService.create(person);
@@ -22,13 +22,5 @@ public class PersonCommandService {
     public void deleteById(String personId) {
         personDomainService.deleteById(personId);
     }
-
-//    public Person findById(String personId) {
-//        return null;
-//    }
-//
-//    public Person findFirstApprover(String applicantId, int leaderMaxLevel) {
-//        return personDomainService.findFirstApprover(applicantId, leaderMaxLevel);
-//    }
 
 }

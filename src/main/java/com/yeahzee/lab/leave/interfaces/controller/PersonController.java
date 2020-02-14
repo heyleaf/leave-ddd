@@ -1,9 +1,10 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
+import com.yeahzee.lab.api.dto.PersonDTO;
 import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.assembler.PersonAssembler;
 import com.yeahzee.lab.leave.application.command.PersonCommandService;
-import com.yeahzee.lab.leave.application.dto.PersonDTO;
+import com.yeahzee.lab.leave.query.PersonQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ public class PersonController {
 
     @Autowired
     PersonCommandService personCommandService;
+    @Autowired
+    PersonQueryService personQueryService;
 
     @PostMapping
     public Response create(PersonDTO personDTO) {
@@ -46,16 +49,16 @@ public class PersonController {
         return Response.ok();
     }
 
-//    @GetMapping("/{personId}")
-//    public Response get(@PathVariable String personId) {
-//        Person person = personApplicationService.findById(personId);
-//        return Response.ok(PersonAssembler.toDTO(person));
-//    }
-//
-//    @GetMapping("/findFirstApprover")
-//    public Response findFirstApprover(@RequestParam String applicantId, @RequestParam int leaderMaxLevel) {
-//        Person person = personApplicationService.findFirstApprover(applicantId, leaderMaxLevel);
-//        return Response.ok(PersonAssembler.toDTO(person));
-//    }
+    @GetMapping("/{personId}")
+    public Response get(@PathVariable String personId) {
+        PersonDTO personDTO = personQueryService.findById(personId);
+        return Response.ok(personDTO);
+    }
+
+    @GetMapping("/findFirstApprover")
+    public Response findFirstApprover(@RequestParam String applicantId, @RequestParam int leaderMaxLevel) {
+        PersonDTO personDTO = personQueryService.findFirstApprover(applicantId, leaderMaxLevel);
+        return Response.ok(personDTO);
+    }
 
 }

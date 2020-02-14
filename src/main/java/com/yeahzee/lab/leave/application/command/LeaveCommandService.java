@@ -1,12 +1,12 @@
 package com.yeahzee.lab.leave.application.command;
 
+import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
-import com.yeahzee.lab.leave.application.dto.LeaveDTO;
+import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
-import com.yeahzee.lab.leave.domain.leave.service.LeaveDomainService;
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
-import com.yeahzee.lab.leave.domain.person.service.PersonDomainService;
 import com.yeahzee.lab.leave.domain.rule.service.ApprovalRuleDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 public class LeaveCommandService {
 
     @Autowired
-    LeaveDomainService leaveDomainService;
+    ILeaveDomainService leaveDomainService;
     @Autowired
-    PersonDomainService personDomainService;
+    IPersonDomainService personDomainService;
     @Autowired
     ApprovalRuleDomainService approvalRuleDomainService;
 

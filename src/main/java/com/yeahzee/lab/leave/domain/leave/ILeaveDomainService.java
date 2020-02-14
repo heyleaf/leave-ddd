@@ -1,6 +1,7 @@
 package com.yeahzee.lab.leave.domain.leave;
 
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
 
 /**
  * 领域服务接口定义
@@ -11,5 +12,8 @@ import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 public interface ILeaveDomainService {
 
     String createLeave(Leave leave);
+    void createLeave(Leave leave, int leaderMaxLevel, Approver approver);
+    void updateLeaveInfo(Leave leave);
+    void submitApproval(Leave leave, Approver approver);
 
 }

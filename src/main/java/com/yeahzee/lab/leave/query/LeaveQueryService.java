@@ -1,11 +1,11 @@
 package com.yeahzee.lab.leave.query;
 
+import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
 import com.yeahzee.lab.leave.query.assembler.LeaveAssembler;
-import com.yeahzee.lab.leave.query.dto.LeaveDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

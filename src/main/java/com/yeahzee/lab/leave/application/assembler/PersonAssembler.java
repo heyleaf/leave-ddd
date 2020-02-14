@@ -1,8 +1,8 @@
 package com.yeahzee.lab.leave.application.assembler;
 
 
+import com.yeahzee.lab.api.dto.PersonDTO;
 import com.yeahzee.lab.common.util.DateUtil;
-import com.yeahzee.lab.leave.application.dto.PersonDTO;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonStatus;
 import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonType;
@@ -10,17 +10,6 @@ import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonType;
 import java.text.ParseException;
 
 public class PersonAssembler {
-
-    public static PersonDTO toDTO(Person person){
-        PersonDTO dto = new PersonDTO();
-        dto.setPersonId(person.getPersonId());
-        dto.setPersonType(person.getPersonType().toString());
-        dto.setPersonName(person.getPersonName());
-        dto.setStatus(person.getStatus().toString());
-        dto.setCreateTime(DateUtil.formatDateTime(person.getCreateTime()));
-        dto.setLastModifyTime(DateUtil.formatDateTime(person.getLastModifyTime()));
-        return dto;
-    }
 
     public static Person toDO(PersonDTO dto) throws ParseException {
         Person person = new Person();

@@ -1,6 +1,5 @@
-package com.yeahzee.lab.leave.query.dto;
+package com.yeahzee.lab.api.dto;
 
-import com.yeahzee.lab.leave.application.dto.ApproverDTO;
 import lombok.Data;
 
 @Data
