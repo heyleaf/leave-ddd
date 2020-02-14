@@ -1,10 +1,9 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
 import com.yeahzee.lab.api.dto.LeaveDTO;
+import com.yeahzee.lab.api.dto.PersonDTO;
 import com.yeahzee.lab.common.api.Response;
-import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
-import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.query.LeaveQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,33 +23,20 @@ public class LeaveController {
 
     @PostMapping
     public Response createLeaveInfo(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveCommandService.createLeaveInfo(leave);
+        leaveCommandService.createLeaveInfo(leaveDTO);
         return Response.ok();
     }
 
     @PutMapping
     public Response updateLeaveInfo(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveCommandService.updateLeaveInfo(leave);
+        leaveCommandService.updateLeaveInfo(leaveDTO);
         return Response.ok();
     }
 
     @PostMapping("/submit")
     public Response submitApproval(LeaveDTO leaveDTO){
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        leaveCommandService.submitApproval(leave);
+        leaveCommandService.submitApproval(leaveDTO);
         return Response.ok();
-    }
-
-
-
-    /**
-     * 简单参数的情况
-     */
-    @PostMapping(value = "/leave/getLeave")
-    public Response getLeave(@RequestBody String leaveId) {
-        return Response.ok(this.leaveQueryService.getLeaveInfo(leaveId));
     }
 
     /**
@@ -63,31 +49,33 @@ public class LeaveController {
     }
 
 
-    @PostMapping("/{leaveId}")
-    public Response findById(@PathVariable String leaveId){
-        LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(leaveId);
+    // TODO 我只需要LeaveId，需要用LeaveDTO作为参数吗？这种情况该怎么弄？
+    @PostMapping("/query/leave/getLeaveById")
+    public Response findById(@RequestBody LeaveDTO dto){
+        LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(dto.getLeaveId());
         return Response.ok(leaveDTO);
     }
 
     /**
      * 根据申请人查询所有请假单
-     * @param applicantId
+     * @param personDTO
      * @return
      */
-    @PostMapping("/query/applicant/{applicantId}")
-    public Response queryByApplicant(@PathVariable String applicantId){
-        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(applicantId);
+    @PostMapping("/query/applicant/getApplicantById")
+    public Response queryByApplicant(@RequestBody PersonDTO personDTO){
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(personDTO.getPersonId());
         return Response.ok(leaveDTOList);
     }
 
     /**
      * 根据审批人id查询待审批请假单（待办任务）
-     * @param approverId
+     * @param personDTO
      * @return
      */
-    @PostMapping("/query/approver/{approverId}")
-    public Response queryByApprover(@PathVariable String approverId){
-        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverId);
+    // TODO 我只需要approverId，需要用PersonDTO作为参数吗？
+    @PostMapping("/query/approver/getApproverById")
+    public Response queryByApprover(@RequestBody PersonDTO personDTO){
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(personDTO.getPersonId());
         return Response.ok(leaveDTOList);
     }
 }
