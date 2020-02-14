@@ -1,12 +1,12 @@
 package com.yeahzee.lab.leave.application.command;
 
+import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
-import com.yeahzee.lab.leave.application.dto.LeaveDTO;
+import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
-import com.yeahzee.lab.leave.domain.leave.service.LeaveDomainService;
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
-import com.yeahzee.lab.leave.domain.person.service.PersonDomainService;
 import com.yeahzee.lab.leave.domain.rule.service.ApprovalRuleDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 public class LeaveCommandService {
 
     @Autowired
-    LeaveDomainService leaveDomainService;
+    ILeaveDomainService leaveDomainService;
     @Autowired
-    PersonDomainService personDomainService;
+    IPersonDomainService personDomainService;
     @Autowired
     ApprovalRuleDomainService approvalRuleDomainService;
 
@@ -28,31 +28,36 @@ public class LeaveCommandService {
 
     /**
      * 创建一个请假申请并为审批人生成任务
-     * @param leave
+     * @param leaveDTO
      */
-    public void createLeaveInfo(Leave leave){
+    public void createLeaveInfo(LeaveDTO leaveDTO){
         //get approval leader max level by rule
-        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leave.getApplicant().getPersonType(), leave.getType().toString(), leave.getDuration());
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leaveDTO.getApplicantDTO().getApplicantType(),
+                leaveDTO.getLeaveType(), leaveDTO.getDuration());
         //find next approver
-        Person approver = personDomainService.findFirstApprover(leave.getApplicant().getPersonId(), leaderMaxLevel);
-        leaveDomainService.createLeave(leave, leaderMaxLevel, Approver.fromPerson(approver));
+        Person approver = personDomainService.findFirstApprover(leaveDTO.getApplicantDTO().getPersonId(), leaderMaxLevel);
+        leaveDomainService.createLeave(LeaveAssembler.toDO(leaveDTO), leaderMaxLevel, Approver.fromPerson(approver));
     }
 
     /**
      * 更新请假单基本信息
-     * @param leave
      */
-    public void updateLeaveInfo(Leave leave){
-        leaveDomainService.updateLeaveInfo(leave);
+    public void updateLeaveInfo(LeaveDTO leaveDTO)
+    {
+        leaveDomainService.updateLeaveInfo(LeaveAssembler.toDO(leaveDTO));
     }
 
     /**
      * 提交审批，更新请假单信息
-     * @param leave
+     * @param leaveDTO
      */
-    public void submitApproval(Leave leave){
+    public void submitApproval(LeaveDTO leaveDTO){
+        //get approval leader max level by rule
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leaveDTO.getApplicantDTO().getApplicantType(),
+                leaveDTO.getLeaveType(), leaveDTO.getDuration());
         //find next approver
-        Person approver = personDomainService.findNextApprover(leave.getApprover().getPersonId(), leave.getLeaderMaxLevel());
-        leaveDomainService.submitApproval(leave, Approver.fromPerson(approver));
+        Person approver = personDomainService.findNextApprover(leaveDTO.getApproverDTO().getPersonId(),
+                leaderMaxLevel);
+        leaveDomainService.submitApproval(LeaveAssembler.toDO(leaveDTO), Approver.fromPerson(approver));
     }
 }

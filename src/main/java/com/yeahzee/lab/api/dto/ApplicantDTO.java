@@ -1,4 +1,4 @@
-package com.yeahzee.lab.leave.application.dto;
+package com.yeahzee.lab.api.dto;
 
 import lombok.Data;
 

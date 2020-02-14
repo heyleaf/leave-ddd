@@ -1,10 +1,10 @@
 package com.yeahzee.lab.leave.query.assembler;
 
+import com.yeahzee.lab.api.dto.ApprovalInfoDTO;
+import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.common.util.DateUtil;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
-import com.yeahzee.lab.leave.query.dto.ApprovalInfoDTO;
-import com.yeahzee.lab.leave.query.dto.LeaveDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

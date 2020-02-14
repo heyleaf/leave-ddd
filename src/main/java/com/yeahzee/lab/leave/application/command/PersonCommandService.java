@@ -1,34 +1,29 @@
 package com.yeahzee.lab.leave.application.command;
 
-import com.yeahzee.lab.leave.domain.person.entity.Person;
-import com.yeahzee.lab.leave.domain.person.service.PersonDomainService;
+import com.yeahzee.lab.api.dto.PersonDTO;
+import com.yeahzee.lab.leave.application.assembler.PersonAssembler;
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
 
 @Service
 public class PersonCommandService {
 
     @Autowired
-    PersonDomainService personDomainService;
+    IPersonDomainService personDomainService;
 
-    public void create(Person person) {
-        personDomainService.create(person);
+    public void create(PersonDTO personDTO) throws ParseException {
+        personDomainService.create(PersonAssembler.toDO(personDTO));
     }
 
-    public void update(Person person) {
-        personDomainService.update(person);
+    public void update(PersonDTO personDTO) throws ParseException {
+        personDomainService.update(PersonAssembler.toDO(personDTO));
     }
 
     public void deleteById(String personId) {
         personDomainService.deleteById(personId);
     }
-
-//    public Person findById(String personId) {
-//        return null;
-//    }
-//
-//    public Person findFirstApprover(String applicantId, int leaderMaxLevel) {
-//        return personDomainService.findFirstApprover(applicantId, leaderMaxLevel);
-//    }
 
 }
