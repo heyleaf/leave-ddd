@@ -20,6 +20,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1'
     implementation 'org.apache.rocketmq:rocketmq-spring-boot-starter:2.0.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-feign:1.4.0.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.github.meixuesong:aggregate-persistence:1.0.0'
+    implementation 'org.postgresql:postgresql:42.2.2'
+    implementation 'org.postgresql:postgresql:42.2.2'
+    implementation 'com.alibaba:fastjson:1.2.62'
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.jetbrains:annotations:RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
