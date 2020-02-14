@@ -10,6 +10,6 @@ import com.yeahzee.lab.leave.domain.leave.entity.Leave;
  */
 public interface ILeaveDomainService {
 
-    Integer createLeave(Leave leave);
+    String createLeave(Leave leave);
 
 }

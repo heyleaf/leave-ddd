@@ -21,7 +21,7 @@ public class LeaveCommandService {
     @Autowired
     ApprovalRuleDomainService approvalRuleDomainService;
 
-    public Integer createLeave(LeaveDTO leaveDTO) {
+    public String createLeave(LeaveDTO leaveDTO) {
         Leave leave = LeaveAssembler.toDO(leaveDTO);
         return this.leaveDomainService.createLeave(leave);
     }
@@ -55,16 +55,4 @@ public class LeaveCommandService {
         Person approver = personDomainService.findNextApprover(leave.getApprover().getPersonId(), leave.getLeaderMaxLevel());
         leaveDomainService.submitApproval(leave, Approver.fromPerson(approver));
     }
-
-//    public Leave getLeaveInfo(String leaveId){
-//        return leaveDomainService.getLeaveInfo(leaveId);
-//    }
-//
-//    public List<Leave> queryLeaveInfosByApplicant(String applicantId){
-//        return leaveDomainService.queryLeaveInfosByApplicant(applicantId);
-//    }
-//
-//    public List<Leave> queryLeaveInfosByApprover(String approverId){
-//        return leaveDomainService.queryLeaveInfosByApprover(approverId);
-//    }
 }

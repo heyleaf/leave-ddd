@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * 领域服务
  *
@@ -54,10 +52,10 @@ public class LeaveDomainService implements ILeaveDomainService {
     ILeaveRepository leaveRepository;
 
     @Override
-    public Integer createLeave(Leave leave) {
+    public String createLeave(Leave leave) {
         // TODO 获取全局唯一ID
-        Integer leaveId = 1;
-        leave.setId(leaveId.toString());
+        String leaveId = "1";
+        leave.setId(leaveId);
         this.leaveRepository.save(leave);
         this.eventPublisher.publish(new LeaveCreatedEvent());
         return leaveId;
@@ -105,20 +103,5 @@ public class LeaveDomainService implements ILeaveDomainService {
         leaveRepository.save(leave);
         leaveRepository.saveEvent(event);
         eventPublisher.publish(event);
-    }
-
-    public Leave getLeaveInfo(String leaveId) {
-        return leaveRepository.findById(leaveId);
-    }
-
-    public List<Leave> queryLeaveInfosByApplicant(String applicantId) {
-        // 柳朕修改：因为直接从数据库中查询出领域对象，且符合需求，直接返回
-        return leaveRepository.queryByApplicantId(applicantId);
-    }
-
-    public List<Leave> queryLeaveInfosByApprover(String approverId) {
-        // 同上，直接返回
-        return leaveRepository.queryByApproverId(approverId);
-
     }
 }

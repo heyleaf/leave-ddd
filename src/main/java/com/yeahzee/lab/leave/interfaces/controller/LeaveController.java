@@ -4,11 +4,13 @@ import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
 import com.yeahzee.lab.leave.application.dto.LeaveDTO;
-import com.yeahzee.lab.leave.application.query.LeaveQueryService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
+import com.yeahzee.lab.leave.query.LeaveQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/leave")
@@ -47,8 +49,8 @@ public class LeaveController {
      * 简单参数的情况
      */
     @PostMapping(value = "/leave/getLeave")
-    public Response getLeave(@RequestBody Integer leaveId) {
-        return Response.ok(this.leaveQueryService.getLeaveById(leaveId));
+    public Response getLeave(@RequestBody String leaveId) {
+        return Response.ok(this.leaveQueryService.getLeaveInfo(leaveId));
     }
 
     /**
@@ -56,38 +58,36 @@ public class LeaveController {
      */
     @PostMapping(value = "/leave/create")
     public Response createLeave(@RequestBody LeaveDTO leaveDTO) {
-        Integer leaveId = this.leaveCommandService.createLeave(leaveDTO);
-        return Response.ok(this.leaveQueryService.getLeaveById(leaveId));
+        String leaveId = this.leaveCommandService.createLeave(leaveDTO);
+        return Response.ok(this.leaveQueryService.getLeaveInfo(leaveId));
     }
 
-//
-//    @PostMapping("/{leaveId}")
-//    public Response findById(@PathVariable String leaveId){
-//        Leave leave = leaveCommandService.getLeaveInfo(leaveId);
-//        return Response.ok(LeaveAssembler.toDTO(leave));
-//    }
-//
-//    /**
-//     * 根据申请人查询所有请假单
-//     * @param applicantId
-//     * @return
-//     */
-//    @PostMapping("/query/applicant/{applicantId}")
-//    public Response queryByApplicant(@PathVariable String applicantId){
-//        List<Leave> leaveList = leaveCommandService.queryLeaveInfosByApplicant(applicantId);
-//        List<LeaveDTO> leaveDTOList = leaveList.stream().map(leave -> LeaveAssembler.toDTO(leave)).collect(Collectors.toList());
-//        return Response.ok(leaveDTOList);
-//    }
-//
-//    /**
-//     * 根据审批人id查询待审批请假单（待办任务）
-//     * @param approverId
-//     * @return
-//     */
-//    @PostMapping("/query/approver/{approverId}")
-//    public Response queryByApprover(@PathVariable String approverId){
-//        List<Leave> leaveList = leaveCommandService.queryLeaveInfosByApprover(approverId);
-//        List<LeaveDTO> leaveDTOList = leaveList.stream().map(leave -> LeaveAssembler.toDTO(leave)).collect(Collectors.toList());
-//        return Response.ok(leaveDTOList);
-//    }
+
+    @PostMapping("/{leaveId}")
+    public Response findById(@PathVariable String leaveId){
+        com.yeahzee.lab.leave.query.dto.LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(leaveId);
+        return Response.ok(leaveDTO);
+    }
+
+    /**
+     * 根据申请人查询所有请假单
+     * @param applicantId
+     * @return
+     */
+    @PostMapping("/query/applicant/{applicantId}")
+    public Response queryByApplicant(@PathVariable String applicantId){
+        List<com.yeahzee.lab.leave.query.dto.LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(applicantId);
+        return Response.ok(leaveDTOList);
+    }
+
+    /**
+     * 根据审批人id查询待审批请假单（待办任务）
+     * @param approverId
+     * @return
+     */
+    @PostMapping("/query/approver/{approverId}")
+    public Response queryByApprover(@PathVariable String approverId){
+        List<com.yeahzee.lab.leave.query.dto.LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverId);
+        return Response.ok(leaveDTOList);
+    }
 }
