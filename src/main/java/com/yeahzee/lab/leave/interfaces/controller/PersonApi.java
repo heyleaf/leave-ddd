@@ -1,9 +1,9 @@
-package com.yeahzee.lab.leave.interfaces.facade;
+package com.yeahzee.lab.leave.interfaces.controller;
 
 import com.yeahzee.lab.common.api.Response;
+import com.yeahzee.lab.leave.application.assembler.PersonAssembler;
 import com.yeahzee.lab.leave.application.command.PersonCommandService;
-import com.yeahzee.lab.leave.interfaces.assembler.PersonAssembler;
-import com.yeahzee.lab.leave.interfaces.dto.PersonDTO;
+import com.yeahzee.lab.leave.application.dto.PersonDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

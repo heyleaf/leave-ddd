@@ -1,49 +1,21 @@
 package com.yeahzee.lab.leave.application.dto;
 
+import lombok.Data;
+
+import java.util.List;
+
+@Data
 public class LeaveDTO {
-    Integer id;
+
+    String leaveId;
+    ApplicantDTO applicantDTO;
+    ApproverDTO approverDTO;
     String leaveType;
+    ApprovalInfoDTO currentApprovalInfoDTO;
+    List<ApprovalInfoDTO> historyApprovalInfoDTOList;
     String startTime;
     String endTime;
-    Long duration;
+    long duration;
+    String status;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLeaveType() {
-        return leaveType;
-    }
-
-    public void setLeaveType(String leaveType) {
-        this.leaveType = leaveType;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public Long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Long duration) {
-        this.duration = duration;
-    }
 }

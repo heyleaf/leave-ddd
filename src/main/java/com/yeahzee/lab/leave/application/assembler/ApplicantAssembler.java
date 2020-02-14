@@ -1,8 +1,8 @@
-package com.yeahzee.lab.leave.interfaces.assembler;
+package com.yeahzee.lab.leave.application.assembler;
 
 
+import com.yeahzee.lab.leave.application.dto.ApplicantDTO;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Applicant;
-import com.yeahzee.lab.leave.interfaces.dto.ApplicantDTO;
 
 public class ApplicantAssembler {
 

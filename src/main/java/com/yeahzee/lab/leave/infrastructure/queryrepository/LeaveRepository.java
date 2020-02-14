@@ -1,6 +1,5 @@
 package com.yeahzee.lab.leave.infrastructure.queryrepository;
 
-import com.yeahzee.lab.leave.application.dto.LeaveDTO;
 import com.yeahzee.lab.leave.application.query.repository.ILeaveRepository;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.dao.LeaveDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
