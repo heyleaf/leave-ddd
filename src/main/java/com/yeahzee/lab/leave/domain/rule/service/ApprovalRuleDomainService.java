@@ -1,7 +1,7 @@
 package com.yeahzee.lab.leave.domain.rule.service;
 
 import com.yeahzee.lab.leave.domain.rule.entity.ApprovalRule;
-import com.yeahzee.lab.leave.domain.rule.repository.facade.ApprovalRuleRepositoryInterface;
+import com.yeahzee.lab.leave.domain.rule.repository.IApprovalRuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class ApprovalRuleDomainService {
 
     @Autowired
-    ApprovalRuleRepositoryInterface repositoryInterface;
+    IApprovalRuleRepository repositoryInterface;
 
     public int getLeaderMaxLevel(String personType, String leaveType, long duration) {
         ApprovalRule rule = new ApprovalRule();
