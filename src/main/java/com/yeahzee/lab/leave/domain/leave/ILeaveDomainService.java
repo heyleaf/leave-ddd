@@ -17,5 +17,6 @@ public interface ILeaveDomainService {
     void updateLeaveInfo(Leave leave);
     void submitApproval(Leave leave, Approver approver);
     void updateLeaveBaseInfo(LeaveBaseInfo leaveBaseInfo);
+    void updateLeaveStatus(String leaveId, String status);
 
 }

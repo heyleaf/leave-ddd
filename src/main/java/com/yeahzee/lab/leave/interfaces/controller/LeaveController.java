@@ -77,7 +77,7 @@ public class LeaveController {
 
     /**
      * 根据审批人id查询待审批请假单（待办任务）
-     * @param applicantDTO
+     * @param approverDTO
      * @return
      */
     // TODO 我只需要approverId，需要用PersonDTO作为参数吗？
@@ -86,4 +86,14 @@ public class LeaveController {
         List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverDTO.getPersonId());
         return Response.ok(leaveDTOList);
     }
+
+    /**
+     * 批量更新请假单状态
+     */
+    @PostMapping("/leave/batchUpdateLeaveStatus")
+    public Response batchUpdateLeaveStatus(@RequestBody BatchUpdateLeaveStatusRequestDTO batchUpdateLeaveStatusRequestDTO) {
+        leaveCommandService.batchUpdateLeaveStatus(batchUpdateLeaveStatusRequestDTO);
+        return Response.ok();
+    }
+
 }

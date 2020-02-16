@@ -104,4 +104,9 @@ public class LeaveDomainService implements ILeaveDomainService {
         leaveRepository.saveEvent(event);
         eventPublisher.publish(event);
     }
+
+    @Override
+    public void updateLeaveStatus(String leaveId, String status) {
+
+    }
 }
