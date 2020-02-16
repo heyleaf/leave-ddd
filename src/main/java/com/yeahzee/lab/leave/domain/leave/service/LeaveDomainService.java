@@ -4,6 +4,7 @@ import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.ApprovalType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.event.ILeaveEventPublisher;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveCreatedEvent;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
@@ -79,6 +80,15 @@ public class LeaveDomainService implements ILeaveDomainService {
             throw new RuntimeException("leave does not exist");
         }
         leaveRepository.save(leave);
+    }
+
+    @Transactional
+    public void updateLeaveBaseInfo(LeaveBaseInfo leaveBaseInfo) {
+        Leave po = leaveRepository.findById(leaveBaseInfo.getId());
+        if (null == po) {
+            throw new RuntimeException("leave does not exist");
+        }
+        leaveRepository.saveLeaveBaseInfo(leaveBaseInfo);
     }
 
     @Transactional

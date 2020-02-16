@@ -1,12 +1,15 @@
 package com.yeahzee.lab.leave.infrastructure.repository.leave.persistence;
 
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
 import com.yeahzee.lab.leave.domain.leave.repository.ILeaveRepository;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDao;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveBaseInfoDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveEventDao;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveBaseInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveEventPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class LeaveRepositoryImpl implements ILeaveRepository {
     @Autowired
     LeaveEventDao leaveEventDao;
     @Autowired
+    LeaveBaseInfoDao leaveBaseInfoDao;
+    @Autowired
     LeaveFactory leaveFactory;
 
     public void save(Leave leave) {
@@ -42,6 +47,12 @@ public class LeaveRepositoryImpl implements ILeaveRepository {
     public void saveEvent(LeaveEvent leaveEvent){
         LeaveEventPO leaveEventPO = leaveFactory.createLeaveEventPO(leaveEvent);
         leaveEventDao.save(leaveEventPO);
+    }
+
+    @Override
+    public void saveLeaveBaseInfo(LeaveBaseInfo leaveBaseInfo) {
+        LeaveBaseInfoPO leaveBaseInfoPO = leaveFactory.createLeaveBaseInfoPO(leaveBaseInfo);
+        leaveBaseInfoDao.save(leaveBaseInfoPO);
     }
 
     @Override

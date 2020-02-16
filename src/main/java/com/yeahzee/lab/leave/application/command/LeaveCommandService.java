@@ -1,10 +1,15 @@
 package com.yeahzee.lab.leave.application.command;
 
+import com.yeahzee.lab.api.dto.LeaveBaseUpdateDTO;
 import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
+import com.yeahzee.lab.leave.application.assembler.LeaveBaseInfoAssembler;
+import com.yeahzee.lab.leave.application.command.validate.LeaveBaseUpdateDTOValidate;
+import com.yeahzee.lab.leave.application.command.validate.LeaveDTOValidate;
 import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.rule.service.ApprovalRuleDomainService;
@@ -31,6 +36,9 @@ public class LeaveCommandService {
      * @param leaveDTO
      */
     public void createLeaveInfo(LeaveDTO leaveDTO){
+        // validate：对传入的参数进行校验
+        LeaveDTOValidate.check(leaveDTO);
+
         //get approval leader max level by rule
         int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leaveDTO.getApplicantDTO().getApplicantType(),
                 leaveDTO.getLeaveType(), leaveDTO.getDuration());
@@ -40,11 +48,21 @@ public class LeaveCommandService {
     }
 
     /**
-     * 更新请假单基本信息
+     * 更新请假单信息
      */
     public void updateLeaveInfo(LeaveDTO leaveDTO)
     {
         leaveDomainService.updateLeaveInfo(LeaveAssembler.toDO(leaveDTO));
+    }
+
+    /**
+     * 更新请假单基本信息
+     */
+    public void updateLeaveBaseInfo(LeaveBaseUpdateDTO leaveBaseUpdateDTO)
+    {
+        LeaveBaseUpdateDTOValidate.check(leaveBaseUpdateDTO);
+        LeaveBaseInfo leaveBaseInfo = LeaveBaseInfoAssembler.fromDTO(leaveBaseUpdateDTO);
+        leaveDomainService.updateLeaveBaseInfo(leaveBaseInfo);
     }
 
     /**

@@ -1,9 +1,6 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
-import com.yeahzee.lab.api.dto.ApplicantDTO;
-import com.yeahzee.lab.api.dto.ApproverDTO;
-import com.yeahzee.lab.api.dto.LeaveDTO;
-import com.yeahzee.lab.api.dto.LeaveQueryDTO;
+import com.yeahzee.lab.api.dto.*;
 import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
 import com.yeahzee.lab.leave.query.LeaveQueryService;
@@ -32,6 +29,12 @@ public class LeaveController {
     @PutMapping
     public Response updateLeaveInfo(LeaveDTO leaveDTO){
         leaveCommandService.updateLeaveInfo(leaveDTO);
+        return Response.ok();
+    }
+
+    @PostMapping(value = "/leave/updateBaseInfo")
+    public Response updateLeaveBaseInfo(LeaveBaseUpdateDTO leaveBaseUpdateDTO){
+        leaveCommandService.updateLeaveBaseInfo(leaveBaseUpdateDTO);
         return Response.ok();
     }
 

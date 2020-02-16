@@ -5,8 +5,10 @@ import com.yeahzee.lab.leave.domain.leave.entity.ApprovalInfo;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Applicant;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveBaseInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveEventPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,15 @@ public class LeaveFactory {
         List<ApprovalInfoPO> historyApprovalInfoPOList = approvalInfoPOListFromDO(leave);
         leavePO.setHistoryApprovalInfoPOList(historyApprovalInfoPOList);
         return leavePO;
+    }
+
+    public LeaveBaseInfoPO createLeaveBaseInfoPO(LeaveBaseInfo leaveBaseInfo) {
+        LeaveBaseInfoPO leaveBaseInfoPO = new LeaveBaseInfoPO();
+        leaveBaseInfoPO.setDuration(leaveBaseInfo.getDuration());
+        leaveBaseInfoPO.setEndTime(leaveBaseInfo.getEndTime());
+        leaveBaseInfoPO.setStartTime(leaveBaseInfo.getStartTime());
+        leaveBaseInfoPO.setId(leaveBaseInfo.getId());
+        return leaveBaseInfoPO;
     }
 
     public Leave getLeave(LeavePO leavePO) {
