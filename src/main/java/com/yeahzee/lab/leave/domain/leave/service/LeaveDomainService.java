@@ -14,22 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 领域服务
- *
- * 1. 领域服务放在聚合内，实现领域服务接口
- * 2. 领域服务必须有对应的聚合根
- * 3. 领域服务命名规范：{聚合根名称}DomainService
- * 4. 聚合内数据存储操作，放在领域服务内，而非聚合根内
- * 5. 领域事件的发布，放在领域服务内，而非聚合根内
- * 6. 聚合内数据的生命周期维护，放在聚合根内，聚合根只是处理内存数据
- */
+
 
 /**
- * 与欧创新修改之处：
- * 1. repository的实现放在了基础设施层，而非领域层。
- * 2. PO 与 entity的转换放在了基础设施层，即LeaveFactory移到了基础设施层。
- *
  * TODO 疑问：
  * 1. 目前规定领域层传给基础设施层的都是领域对象，对于哪些无关联的简单领域对象实体还好，直接从数据库中获取；
  *    但对于那些有关联的实体（如聚合根），它在数据库中保存的是关联ID，但是在领域对象中是引用整个entity，
@@ -42,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
  *    （3）返回account entity, 且entity中所有字段均填充，领域层获取其想要的值。
  *    个人想法，在无惰性加载的前提下，取（1）会更好，一方面接口扩展性强，且领域层是知道自己需要的数据，不会乱取。另一方面保障了效率。
  * 4. 其他DTO，应用层与领域层的接口，也都会有这个问题。
+ *
+ * 个人认为：这些较为内聚的参数，应该是领域内的值对象；而那些毫无关联的参数，就是用简单参数。
  *
  */
 @Service
@@ -84,6 +73,7 @@ public class LeaveDomainService implements ILeaveDomainService {
 
     @Transactional
     public void updateLeaveBaseInfo(LeaveBaseInfo leaveBaseInfo) {
+        // 业务逻辑validate：需要保证聚合内的数据一致性
         Leave po = leaveRepository.findById(leaveBaseInfo.getId());
         if (null == po) {
             throw new RuntimeException("leave does not exist");
