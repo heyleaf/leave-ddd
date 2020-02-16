@@ -3,6 +3,10 @@ package com.yeahzee.lab.leave.interfaces.controller;
 import com.yeahzee.lab.api.dto.*;
 import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
+import com.yeahzee.lab.leave.application.dto.CreateLeaveRequestDTO;
+import com.yeahzee.lab.leave.application.dto.SubmitApprovalRequestDTO;
+import com.yeahzee.lab.leave.application.dto.UpdateLeaveInfoRequestDTO;
+import com.yeahzee.lab.leave.application.validate.LeaveRequestValidate;
 import com.yeahzee.lab.leave.query.LeaveQueryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,36 +24,46 @@ public class LeaveController {
     @Autowired
     private LeaveQueryService leaveQueryService;
 
-    @PostMapping
-    public Response createLeaveInfo(LeaveDTO leaveDTO){
-        leaveCommandService.createLeaveInfo(leaveDTO);
-        return Response.ok();
-    }
-
+    /**
+     * 更新请假单信息
+     *  FIXME 不应该出现类似没有明确性的场景
+     */
     @PutMapping
-    public Response updateLeaveInfo(LeaveDTO leaveDTO){
-        leaveCommandService.updateLeaveInfo(leaveDTO);
+    public Response updateLeaveInfo(UpdateLeaveInfoRequestDTO updateLeaveInfoRequestDTO){
+        LeaveRequestValidate.check(updateLeaveInfoRequestDTO);
+        leaveCommandService.updateLeaveInfo(updateLeaveInfoRequestDTO);
         return Response.ok();
     }
 
+    /**
+     * 更新请假单基本主信息
+     * @param leaveBaseUpdateDTO
+     * @return
+     */
     @PostMapping(value = "/leave/updateBaseInfo")
     public Response updateLeaveBaseInfo(LeaveBaseUpdateDTO leaveBaseUpdateDTO){
         leaveCommandService.updateLeaveBaseInfo(leaveBaseUpdateDTO);
         return Response.ok();
     }
 
+    /**
+     * 提交审批信息
+     */
     @PostMapping("/submit")
-    public Response submitApproval(LeaveDTO leaveDTO){
-        leaveCommandService.submitApproval(leaveDTO);
+    public Response submitApproval(SubmitApprovalRequestDTO submitApprovalRequestDTO){
+        leaveCommandService.submitApproval(submitApprovalRequestDTO);
         return Response.ok();
     }
 
+
     /**
-     * 参数为DTO的情况
+     * 新建请假单
      */
-    @PostMapping(value = "/leave/create")
-    public Response createLeave(@RequestBody LeaveDTO leaveDTO) {
-        String leaveId = this.leaveCommandService.createLeave(leaveDTO);
+    @PostMapping(value = "/leave/createLeave")
+    public Response createLeave(@RequestBody CreateLeaveRequestDTO createLeaveRequestDTO) {
+        // 校验参数
+        LeaveRequestValidate.check(createLeaveRequestDTO);
+        String leaveId = this.leaveCommandService.createLeaveInfo(createLeaveRequestDTO);
         return Response.ok(this.leaveQueryService.getLeaveInfo(leaveId));
     }
 

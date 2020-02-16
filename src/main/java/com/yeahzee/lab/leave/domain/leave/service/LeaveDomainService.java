@@ -6,7 +6,6 @@ import com.yeahzee.lab.leave.domain.leave.entity.valueobject.ApprovalType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.event.ILeaveEventPublisher;
-import com.yeahzee.lab.leave.domain.leave.event.LeaveCreatedEvent;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEventType;
 import com.yeahzee.lab.leave.domain.leave.repository.ILeaveRepository;
@@ -41,18 +40,8 @@ public class LeaveDomainService implements ILeaveDomainService {
     @Autowired
     ILeaveRepository leaveRepository;
 
-    @Override
-    public String createLeave(Leave leave) {
-        // TODO 获取全局唯一ID
-        String leaveId = "1";
-        leave.setId(leaveId);
-        this.leaveRepository.save(leave);
-        this.eventPublisher.publish(new LeaveCreatedEvent());
-        return leaveId;
-    }
-
     @Transactional
-    public void createLeave(Leave leave, int leaderMaxLevel, Approver approver) {
+    public String createLeave(Leave leave, int leaderMaxLevel, Approver approver) {
         leave.setLeaderMaxLevel(leaderMaxLevel);
         leave.setApprover(approver);
         leave.create();
@@ -60,6 +49,7 @@ public class LeaveDomainService implements ILeaveDomainService {
         LeaveEvent event = LeaveEvent.create(LeaveEventType.CREATE_EVENT, leave);
         leaveRepository.saveEvent(event);
         eventPublisher.publish(event);
+        return leave.getId();
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package com.yeahzee.lab.leave.application.command.validate;
+package com.yeahzee.lab.leave.application.validate;
 
 import com.yeahzee.lab.api.dto.LeaveBaseUpdateDTO;
 

@@ -2,14 +2,15 @@ package com.yeahzee.lab.leave.application.command;
 
 import com.yeahzee.lab.api.dto.BatchUpdateLeaveStatusRequestDTO;
 import com.yeahzee.lab.api.dto.LeaveBaseUpdateDTO;
-import com.yeahzee.lab.api.dto.LeaveDTO;
 import com.yeahzee.lab.api.dto.LeaveStatusDTO;
 import com.yeahzee.lab.common.event.CommandPublisher;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
 import com.yeahzee.lab.leave.application.assembler.LeaveBaseInfoAssembler;
 import com.yeahzee.lab.leave.application.command.cmd.UpdateLeaveStatusCmd;
-import com.yeahzee.lab.leave.application.command.validate.LeaveBaseUpdateDTOValidate;
-import com.yeahzee.lab.leave.application.command.validate.LeaveDTOValidate;
+import com.yeahzee.lab.leave.application.dto.CreateLeaveRequestDTO;
+import com.yeahzee.lab.leave.application.dto.SubmitApprovalRequestDTO;
+import com.yeahzee.lab.leave.application.dto.UpdateLeaveInfoRequestDTO;
+import com.yeahzee.lab.leave.application.validate.LeaveBaseUpdateDTOValidate;
 import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
@@ -34,33 +35,30 @@ public class LeaveCommandService {
     @Autowired
     CommandPublisher commandPublisher;
 
-    public String createLeave(LeaveDTO leaveDTO) {
-        Leave leave = LeaveAssembler.toDO(leaveDTO);
-        return this.leaveDomainService.createLeave(leave);
-    }
-
     /**
      * 创建一个请假申请并为审批人生成任务
-     * @param leaveDTO
+     * @param createLeaveRequestDTO
      */
-    public void createLeaveInfo(LeaveDTO leaveDTO){
-        // validate：对传入的参数进行校验
-        LeaveDTOValidate.check(leaveDTO);
-
+    public String createLeaveInfo(CreateLeaveRequestDTO createLeaveRequestDTO){
         //get approval leader max level by rule
-        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leaveDTO.getApplicantDTO().getApplicantType(),
-                leaveDTO.getLeaveType(), leaveDTO.getDuration());
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(createLeaveRequestDTO.getApplicantDTO().getApplicantType(),
+                createLeaveRequestDTO.getLeaveType(), createLeaveRequestDTO.getDuration());
         //find next approver
-        Person approver = personDomainService.findFirstApprover(leaveDTO.getApplicantDTO().getPersonId(), leaderMaxLevel);
-        leaveDomainService.createLeave(LeaveAssembler.toDO(leaveDTO), leaderMaxLevel, Approver.fromPerson(approver));
+        Person approver = personDomainService.findFirstApprover(createLeaveRequestDTO.getApplicantDTO().getPersonId(), leaderMaxLevel);
+        // TODO 获取全局ID
+        String leaveId = "1";
+        Leave leave = LeaveAssembler.fromDTO(createLeaveRequestDTO);
+        leave.setId(leaveId);
+        leaveDomainService.createLeave(leave, leaderMaxLevel, Approver.fromPerson(approver));
+        return leaveId;
     }
 
     /**
      * 更新请假单信息
      */
-    public void updateLeaveInfo(LeaveDTO leaveDTO)
+    public void updateLeaveInfo(UpdateLeaveInfoRequestDTO updateLeaveInfoRequestDTO)
     {
-        leaveDomainService.updateLeaveInfo(LeaveAssembler.toDO(leaveDTO));
+        leaveDomainService.updateLeaveInfo(LeaveAssembler.fromDTO(updateLeaveInfoRequestDTO));
     }
 
     /**
@@ -75,16 +73,16 @@ public class LeaveCommandService {
 
     /**
      * 提交审批，更新请假单信息
-     * @param leaveDTO
+     * @param submitApprovalRequestDTO
      */
-    public void submitApproval(LeaveDTO leaveDTO){
+    public void submitApproval(SubmitApprovalRequestDTO submitApprovalRequestDTO) {
         //get approval leader max level by rule
-        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(leaveDTO.getApplicantDTO().getApplicantType(),
-                leaveDTO.getLeaveType(), leaveDTO.getDuration());
+        int leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(submitApprovalRequestDTO.getApplicantType(),
+                submitApprovalRequestDTO.getLeaveType(), submitApprovalRequestDTO.getLeaveDuration());
         //find next approver
-        Person approver = personDomainService.findNextApprover(leaveDTO.getApproverDTO().getPersonId(),
+        Person approver = personDomainService.findNextApprover(submitApprovalRequestDTO.getApproverDTO().getPersonId(),
                 leaderMaxLevel);
-        leaveDomainService.submitApproval(LeaveAssembler.toDO(leaveDTO), Approver.fromPerson(approver));
+        leaveDomainService.submitApproval(LeaveAssembler.fromDTO(submitApprovalRequestDTO), Approver.fromPerson(approver));
     }
 
     /**
