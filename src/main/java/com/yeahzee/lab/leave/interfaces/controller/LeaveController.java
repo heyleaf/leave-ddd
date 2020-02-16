@@ -1,7 +1,9 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
+import com.yeahzee.lab.api.dto.ApplicantDTO;
+import com.yeahzee.lab.api.dto.ApproverDTO;
 import com.yeahzee.lab.api.dto.LeaveDTO;
-import com.yeahzee.lab.api.dto.PersonDTO;
+import com.yeahzee.lab.api.dto.LeaveQueryDTO;
 import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.command.LeaveCommandService;
 import com.yeahzee.lab.leave.query.LeaveQueryService;
@@ -48,34 +50,37 @@ public class LeaveController {
         return Response.ok(this.leaveQueryService.getLeaveInfo(leaveId));
     }
 
-
-    // TODO 我只需要LeaveId，需要用LeaveDTO作为参数吗？这种情况该怎么弄？
-    @PostMapping("/query/leave/getLeaveById")
-    public Response findById(@RequestBody LeaveDTO dto){
-        LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(dto.getLeaveId());
+    /**
+     * 根据leaveQueryDTO中的查询条件查询请假单
+     * @param leaveQueryDTO
+     * @return
+     */
+    @PostMapping("/query/leave/getLeave")
+    public Response getLeave(@RequestBody LeaveQueryDTO leaveQueryDTO){
+        LeaveDTO leaveDTO = leaveQueryService.getLeaveInfo(leaveQueryDTO.getLeaveId());
         return Response.ok(leaveDTO);
     }
 
     /**
      * 根据申请人查询所有请假单
-     * @param personDTO
+     * @param applicantDTO
      * @return
      */
-    @PostMapping("/query/applicant/getApplicantById")
-    public Response queryByApplicant(@RequestBody PersonDTO personDTO){
-        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(personDTO.getPersonId());
+    @PostMapping("/query/applicant/getLeaveByApplicant")
+    public Response queryByApplicant(@RequestBody ApplicantDTO applicantDTO){
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApplicant(applicantDTO.getPersonId());
         return Response.ok(leaveDTOList);
     }
 
     /**
      * 根据审批人id查询待审批请假单（待办任务）
-     * @param personDTO
+     * @param applicantDTO
      * @return
      */
     // TODO 我只需要approverId，需要用PersonDTO作为参数吗？
-    @PostMapping("/query/approver/getApproverById")
-    public Response queryByApprover(@RequestBody PersonDTO personDTO){
-        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(personDTO.getPersonId());
+    @PostMapping("/query/approver/getLeaveByApprover")
+    public Response queryByApprover(@RequestBody ApproverDTO approverDTO){
+        List<LeaveDTO> leaveDTOList = leaveQueryService.queryLeaveInfosByApprover(approverDTO.getPersonId());
         return Response.ok(leaveDTOList);
     }
 }
