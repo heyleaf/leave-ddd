@@ -4,10 +4,10 @@ import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
 import com.yeahzee.lab.leave.domain.leave.repository.ILeaveRepository;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDao;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveBaseInfoDao;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDao;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveEventDao;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDAO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveBaseInfoDAO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDAO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveEventDAO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveBaseInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeaveEventPO;
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 public class LeaveRepositoryImpl implements ILeaveRepository {
 
     @Autowired
-    LeaveDao leaveDao;
+    LeaveDAO leaveDao;
     @Autowired
-    ApprovalInfoDao approvalInfoDao;
+    ApprovalInfoDAO approvalInfoDao;
     @Autowired
-    LeaveEventDao leaveEventDao;
+    LeaveEventDAO leaveEventDao;
     @Autowired
-    LeaveBaseInfoDao leaveBaseInfoDao;
+    LeaveBaseInfoDAO leaveBaseInfoDao;
     @Autowired
     LeaveFactory leaveFactory;
 

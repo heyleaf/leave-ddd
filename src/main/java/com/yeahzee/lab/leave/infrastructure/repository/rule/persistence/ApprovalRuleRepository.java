@@ -2,7 +2,7 @@ package com.yeahzee.lab.leave.infrastructure.repository.rule.persistence;
 
 import com.yeahzee.lab.leave.domain.rule.entity.ApprovalRule;
 import com.yeahzee.lab.leave.domain.rule.repository.IApprovalRuleRepository;
-import com.yeahzee.lab.leave.infrastructure.repository.rule.mapper.ApprovalRuleDao;
+import com.yeahzee.lab.leave.infrastructure.repository.rule.mapper.ApprovalRuleDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class ApprovalRuleRepository implements IApprovalRuleRepository {
 
     @Autowired
-    ApprovalRuleDao ruleDao;
+    ApprovalRuleDAO ruleDao;
 
     @Override
     public int getLeaderMaxLevel(ApprovalRule rule) {

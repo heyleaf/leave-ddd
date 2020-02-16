@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LeaveBaseInfoDao extends JpaRepository<LeaveBaseInfoPO, String> {
+public interface LeaveBaseInfoDAO extends JpaRepository<LeaveBaseInfoPO, String> {
 }

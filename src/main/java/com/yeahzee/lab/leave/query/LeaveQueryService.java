@@ -1,8 +1,8 @@
 package com.yeahzee.lab.leave.query;
 
 import com.yeahzee.lab.api.dto.LeaveDTO;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDao;
-import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDao;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.ApprovalInfoDAO;
+import com.yeahzee.lab.leave.infrastructure.repository.leave.mapper.LeaveDAO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
 import com.yeahzee.lab.leave.query.assembler.LeaveAssembler;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 @Service
 public class LeaveQueryService {
     @Autowired
-    private LeaveDao leaveDao;
+    private LeaveDAO leaveDao;
 
     @Autowired
-    private ApprovalInfoDao approvalInfoDao;
+    private ApprovalInfoDAO approvalInfoDao;
 
     public LeaveDTO getLeaveInfo(String leaveId) {
         LeavePO leavePO = leaveDao.findById(leaveId)

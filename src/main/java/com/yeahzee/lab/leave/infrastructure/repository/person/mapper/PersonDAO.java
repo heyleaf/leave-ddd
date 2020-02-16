@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonDao extends JpaRepository<PersonPO, String> {
+public interface PersonDAO extends JpaRepository<PersonPO, String> {
 
     @Query(value = "select p from PersonPO  p where p.relationshipPO.personId=?1")
     PersonPO findLeaderByPersonId(String personId);
