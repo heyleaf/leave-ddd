@@ -19,7 +19,6 @@ public class LeaveCreatedEventService {
     private ILeaveDomainService leaveDomainService;
 
     public void handle(LeaveCreatedEvent event) {
-        leaveDomainService.createLeave(null);
         System.out.println("leaveCreated！" + event.toString());
     }
 }

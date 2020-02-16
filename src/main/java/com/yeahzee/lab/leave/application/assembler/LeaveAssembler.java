@@ -1,25 +1,32 @@
 package com.yeahzee.lab.leave.application.assembler;
 
 
-import com.yeahzee.lab.api.dto.LeaveDTO;
-import com.yeahzee.lab.leave.domain.leave.entity.ApprovalInfo;
+import com.yeahzee.lab.leave.application.dto.CreateLeaveRequestDTO;
+import com.yeahzee.lab.leave.application.dto.SubmitApprovalRequestDTO;
+import com.yeahzee.lab.leave.application.dto.UpdateLeaveInfoRequestDTO;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class LeaveAssembler {
-    public static Leave toDO(LeaveDTO dto){
+    public static Leave fromDTO(CreateLeaveRequestDTO dto){
         Leave leave = new Leave();
-        leave.setId(dto.getLeaveId());
         leave.setApplicant(ApplicantAssembler.toDO(dto.getApplicantDTO()));
         leave.setApprover(ApproverAssembler.toDO(dto.getApproverDTO()));
         leave.setCurrentApprovalInfo(ApprovalInfoAssembler.toDO(dto.getCurrentApprovalInfoDTO()));
-        List<ApprovalInfo> historyApprovalInfoDTOList = dto.getHistoryApprovalInfoDTOList()
-                .stream()
-                .map(historyApprovalInfoDTO -> ApprovalInfoAssembler.toDO(historyApprovalInfoDTO))
-                .collect(Collectors.toList());
-        leave.setHistoryApprovalInfos(historyApprovalInfoDTOList);
+        return leave;
+    }
+
+    public static Leave fromDTO(UpdateLeaveInfoRequestDTO updateLeaveInfoRequestDTO) {
+        Leave leave = new Leave();
+        leave.setApplicant(ApplicantAssembler.toDO(updateLeaveInfoRequestDTO.getApplicantDTO()));
+        leave.setApprover(ApproverAssembler.toDO(updateLeaveInfoRequestDTO.getApproverDTO()));
+        leave.setCurrentApprovalInfo(ApprovalInfoAssembler.toDO(updateLeaveInfoRequestDTO.getCurrentApprovalInfoDTO()));
+        leave.setId(updateLeaveInfoRequestDTO.getLeaveId());
+        return leave;
+    }
+
+    public static Leave fromDTO(SubmitApprovalRequestDTO submitApprovalRequestDTO) {
+        Leave leave = new Leave();
+        leave.setId(submitApprovalRequestDTO.getLeaveId());
         return leave;
     }
 

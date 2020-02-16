@@ -2,7 +2,7 @@ package com.yeahzee.lab.leave.infrastructure.repository.person.persistence;
 
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.person.repository.IPersonRepository;
-import com.yeahzee.lab.leave.infrastructure.repository.person.mapper.PersonDao;
+import com.yeahzee.lab.leave.infrastructure.repository.person.mapper.PersonDAO;
 import com.yeahzee.lab.leave.infrastructure.repository.person.po.PersonPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class PersonRepositoryImpl implements IPersonRepository {
 
     @Autowired
-    PersonDao personDao;
+    PersonDAO personDao;
 
     @Autowired
     PersonFactory personFactory;

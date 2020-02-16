@@ -1,5 +1,6 @@
 package com.yeahzee.lab.leave.domain.person.service;
 
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.person.repository.IPersonRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 @Service
 @Slf4j
-public class PersonDomainService {
+public class PersonDomainService implements IPersonDomainService {
 
     @Autowired
     IPersonRepository personRepository;
