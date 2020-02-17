@@ -1,17 +1,17 @@
 package com.yeahzee.lab.leave.application.assembler;
 
-import com.yeahzee.lab.api.dto.LeaveBaseUpdateDTO;
+import com.yeahzee.lab.leave.application.dto.UpdateLeaveBaseRequestDTO;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 
 public class LeaveBaseInfoAssembler {
 
-    public static LeaveBaseInfo fromDTO(LeaveBaseUpdateDTO leaveBaseUpdateDTO) {
+    public static LeaveBaseInfo fromDTO(UpdateLeaveBaseRequestDTO updateLeaveBaseRequestDTO) {
         LeaveBaseInfo leaveBaseInfo = new LeaveBaseInfo();
-        leaveBaseInfo.setDuration(leaveBaseUpdateDTO.getDuration());
-        leaveBaseInfo.setEndTime(leaveBaseUpdateDTO.getEndTime());
-        leaveBaseInfo.setStartTime(leaveBaseUpdateDTO.getStartTime());
-        leaveBaseInfo.setLeaveType(leaveBaseUpdateDTO.getLeaveType());
-        leaveBaseInfo.setId(leaveBaseUpdateDTO.getId());
+        leaveBaseInfo.setDuration(updateLeaveBaseRequestDTO.getDuration());
+        leaveBaseInfo.setEndTime(updateLeaveBaseRequestDTO.getEndTime());
+        leaveBaseInfo.setStartTime(updateLeaveBaseRequestDTO.getStartTime());
+        leaveBaseInfo.setLeaveType(updateLeaveBaseRequestDTO.getLeaveType());
+        leaveBaseInfo.setId(updateLeaveBaseRequestDTO.getLeaveId());
         return leaveBaseInfo;
     }
 }

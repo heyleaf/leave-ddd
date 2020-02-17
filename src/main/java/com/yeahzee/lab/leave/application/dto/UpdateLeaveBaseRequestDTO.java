@@ -4,15 +4,10 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 新建请假单请求DTO
- */
 @Data
-public class CreateLeaveRequestDTO implements Serializable {
-
+public class UpdateLeaveBaseRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    ApplicantDTO applicantDTO;
+    String leaveId;
     String leaveType;
     String startTime;
     String endTime;

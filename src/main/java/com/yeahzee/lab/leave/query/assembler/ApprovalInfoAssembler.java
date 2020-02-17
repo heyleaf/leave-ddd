@@ -1,8 +1,8 @@
 package com.yeahzee.lab.leave.query.assembler;
 
 
-import com.yeahzee.lab.api.dto.ApprovalInfoDTO;
 import com.yeahzee.lab.leave.infrastructure.repository.leave.po.ApprovalInfoPO;
+import com.yeahzee.lab.leave.query.dto.ApprovalInfoDTO;
 
 public class ApprovalInfoAssembler {
 

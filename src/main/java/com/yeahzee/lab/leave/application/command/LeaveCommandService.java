@@ -1,7 +1,6 @@
 package com.yeahzee.lab.leave.application.command;
 
 import com.yeahzee.lab.api.dto.BatchUpdateLeaveStatusRequestDTO;
-import com.yeahzee.lab.api.dto.LeaveBaseUpdateDTO;
 import com.yeahzee.lab.api.dto.LeaveStatusDTO;
 import com.yeahzee.lab.common.event.CommandPublisher;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
@@ -9,8 +8,9 @@ import com.yeahzee.lab.leave.application.assembler.LeaveBaseInfoAssembler;
 import com.yeahzee.lab.leave.application.command.cmd.UpdateLeaveStatusCmd;
 import com.yeahzee.lab.leave.application.dto.CreateLeaveRequestDTO;
 import com.yeahzee.lab.leave.application.dto.SubmitApprovalRequestDTO;
+import com.yeahzee.lab.leave.application.dto.UpdateLeaveBaseRequestDTO;
 import com.yeahzee.lab.leave.application.dto.UpdateLeaveInfoRequestDTO;
-import com.yeahzee.lab.leave.application.validate.LeaveBaseUpdateDTOValidate;
+import com.yeahzee.lab.leave.application.validate.LeaveRequestValidate;
 import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
@@ -64,10 +64,10 @@ public class LeaveCommandService {
     /**
      * 更新请假单基本信息
      */
-    public void updateLeaveBaseInfo(LeaveBaseUpdateDTO leaveBaseUpdateDTO)
+    public void updateLeaveBaseInfo(UpdateLeaveBaseRequestDTO updateLeaveBaseRequestDTO)
     {
-        LeaveBaseUpdateDTOValidate.check(leaveBaseUpdateDTO);
-        LeaveBaseInfo leaveBaseInfo = LeaveBaseInfoAssembler.fromDTO(leaveBaseUpdateDTO);
+        LeaveRequestValidate.check(updateLeaveBaseRequestDTO);
+        LeaveBaseInfo leaveBaseInfo = LeaveBaseInfoAssembler.fromDTO(updateLeaveBaseRequestDTO);
         leaveDomainService.updateLeaveBaseInfo(leaveBaseInfo);
     }
 
