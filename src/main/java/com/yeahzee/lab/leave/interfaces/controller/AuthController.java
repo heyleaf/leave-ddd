@@ -1,8 +1,8 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
-import com.yeahzee.lab.api.dto.PersonDTO;
 import com.yeahzee.lab.common.api.Response;
-import com.yeahzee.lab.leave.application.command.LoginCommandService;
+import com.yeahzee.lab.leave.application.dto.LoginRequestDTO;
+import com.yeahzee.lab.leave.application.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    LoginCommandService loginCommandService;
+    AuthService authService;
 
     @PostMapping("/login")
-    public Response login(PersonDTO personDTO){
-        return loginCommandService.login(personDTO);
+    public Response login(LoginRequestDTO loginRequestDTO){
+        return Response.ok(authService.login(loginRequestDTO));
     }
 }

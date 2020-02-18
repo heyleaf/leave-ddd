@@ -13,6 +13,7 @@ repositories {
     maven {url "http://maven.aliyun.com/nexus/content/groups/public/"}
     maven {url "https://repo.spring.io/snapshot"}
     maven {url "https://repo.spring.io/milestone"}
+    maven {url "http://maven.youzanyun.com/repository/maven-releases/"}
 }
 
 dependencies {
@@ -29,6 +30,8 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     implementation 'org.jetbrains:annotations:RELEASE'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+    implementation 'com.youzan:open-sdk-client:2.33.19-RELEASE'
+    implementation 'com.youzan:open-sdk-gen:2.33.19-RELEASE'
 
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
