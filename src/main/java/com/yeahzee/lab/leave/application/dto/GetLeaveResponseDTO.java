@@ -2,16 +2,10 @@ package com.yeahzee.lab.leave.application.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.List;
 
-/**
- * 创建请假单之后的返回DTO
- */
 @Data
-public class CreateLeaveResponseDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class GetLeaveResponseDTO {
 
     String leaveId;
     ApplicantDTO applicantDTO;

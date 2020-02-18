@@ -1,10 +1,10 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
-import com.yeahzee.lab.api.dto.FindApproverDTO;
-import com.yeahzee.lab.api.dto.PersonDTO;
 import com.yeahzee.lab.common.api.Response;
-import com.yeahzee.lab.leave.application.command.PersonCommandService;
-import com.yeahzee.lab.leave.query.PersonQueryService;
+import com.yeahzee.lab.leave.application.dto.CreatePersonRequestDTO;
+import com.yeahzee.lab.leave.application.dto.GetPersonRequestDTO;
+import com.yeahzee.lab.leave.application.dto.GetPersonResponseDTO;
+import com.yeahzee.lab.leave.application.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,13 @@ import java.text.ParseException;
 public class PersonController {
 
     @Autowired
-    PersonCommandService personCommandService;
-    @Autowired
-    PersonQueryService personQueryService;
+    PersonService personService;
 
-    @PostMapping
-    public Response create(PersonDTO personDTO) {
+
+    @PostMapping(value = "/query/createPerson")
+    public Response createPerson(@RequestBody  CreatePersonRequestDTO createPersonRequestDTO) {
         try {
-            personCommandService.create(personDTO);
+            personService.create(createPersonRequestDTO);
             return Response.ok();
         } catch (ParseException e) {
             log.error("", e);
@@ -32,33 +31,9 @@ public class PersonController {
         }
     }
 
-    @PutMapping
-    public Response update(PersonDTO personDTO) {
-        try {
-            personCommandService.update(personDTO);
-        } catch (ParseException e) {
-            log.error("", e);
-            return Response.failed(e.getMessage());
-        }
-        return Response.ok();
-    }
-
-    @DeleteMapping("/deletePersonById")
-    public Response delete(@RequestBody PersonDTO personDTO) {
-        personCommandService.deleteById(personDTO.getPersonId());
-        return Response.ok();
-    }
-
-    @GetMapping("/query/getPersonById")
-    public Response get(@PathVariable PersonDTO dto) {
-        PersonDTO personDTO = personQueryService.findById(dto.getPersonId());
-        return Response.ok(personDTO);
-    }
-
-    @GetMapping("/query/findFirstApprover")
-    public Response findFirstApprover(@RequestBody FindApproverDTO findApproverDTO) {
-        PersonDTO personDTO = personQueryService.findFirstApprover(findApproverDTO.getApplicantId(),
-                findApproverDTO.getLeaderMaxLevel());
-        return Response.ok(personDTO);
+    @PostMapping(value = "/query/getPersonById")
+    public Response getPerson(@PathVariable GetPersonRequestDTO getPersonRequestDTO) {
+        GetPersonResponseDTO responseDTO = personService.getPerson(getPersonRequestDTO);
+        return Response.ok(responseDTO);
     }
 }

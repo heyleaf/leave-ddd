@@ -2,19 +2,24 @@ package com.yeahzee.lab.leave.application.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 新建请假单请求DTO
  */
 @Data
-public class CreateLeaveRequestDTO implements Serializable {
+public class CreateLeaveRequestDTO {
 
-    private static final long serialVersionUID = 1L;
+    private ApplicantDTO applicantDTO;
+    private String leaveType;
+    private String startTime;
+    private String endTime;
+    private Long duration;
 
-    ApplicantDTO applicantDTO;
-    String leaveType;
-    String startTime;
-    String endTime;
-    Long duration;
+    @Data
+    public static class ApplicantDTO {
+        private String personId;
+        private String personName;
+        private String leaderId;
+        private String applicantType;
+        private String roleLevel;
+    }
 }

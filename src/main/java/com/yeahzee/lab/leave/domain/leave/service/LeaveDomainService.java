@@ -1,6 +1,7 @@
 package com.yeahzee.lab.leave.domain.leave.service;
 
 import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
+import com.yeahzee.lab.leave.domain.leave.entity.ApprovalInfo;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.ApprovalType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
@@ -64,24 +65,28 @@ public class LeaveDomainService implements ILeaveDomainService {
     @Transactional
     public void updateLeaveBaseInfo(LeaveBaseInfo leaveBaseInfo) {
         // 业务逻辑validate：需要保证聚合内的数据一致性
-        Leave po = leaveRepository.findById(leaveBaseInfo.getId());
-        if (null == po) {
+        Leave leave = leaveRepository.findById(leaveBaseInfo.getId());
+        if (null == leave) {
             throw new RuntimeException("leave does not exist");
         }
         leaveRepository.saveLeaveBaseInfo(leaveBaseInfo);
     }
 
     @Transactional
-    public void submitApproval(Leave leave, Approver approver) {
+    public void submitApproval(Leave leave, ApprovalInfo approvalInfo, Approver nextApprover) {
+        if (null == leave) {
+            // TODO 异常处理
+            System.out.println("请假单不存在");
+        }
         LeaveEvent event;
-        if ( ApprovalType.REJECT == leave.getCurrentApprovalInfo().getApprovalType()) {
+        if ( ApprovalType.REJECT == approvalInfo.getApprovalType()) {
             //reject, then the leave is finished with REJECTED status
-            leave.reject(approver);
+            leave.reject(nextApprover);
             event = LeaveEvent.create(LeaveEventType.REJECT_EVENT, leave);
         } else {
-            if (approver != null) {
+            if (nextApprover != null) {
                 //agree and has next approver
-                leave.agree(approver);
+                leave.agree(nextApprover);
                 event = LeaveEvent.create(LeaveEventType.AGREE_EVENT, leave);
             } else {
                 //agree and hasn't next approver, then the leave is finished with APPROVED status
@@ -98,5 +103,10 @@ public class LeaveDomainService implements ILeaveDomainService {
     @Override
     public void updateLeaveStatus(String leaveId, String status) {
 
+    }
+
+    @Override
+    public Leave queryById(String leaveId) {
+        return leaveRepository.findById(leaveId);
     }
 }
