@@ -13,10 +13,9 @@ public class ApprovalRuleRepository implements IApprovalRuleRepository {
     ApprovalRuleDAO ruleDao;
 
     @Override
-    public int getLeaderMaxLevel(ApprovalRule rule) {
+    public ApprovalRule findByRule(ApprovalRule rule) {
         String personType = rule.getPersonType();
         String leaveType = rule.getLeaveType();
-        rule = ruleDao.findRule(personType, leaveType, rule.getDuration());
-        return rule.getMaxLeaderLevel();
+        return ruleDao.findRule(personType, leaveType, rule.getDuration());
     }
 }

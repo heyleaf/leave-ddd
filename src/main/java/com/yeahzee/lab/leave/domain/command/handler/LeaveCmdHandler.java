@@ -141,13 +141,13 @@ public class LeaveCmdHandler {
         leaveRepository.save(leave);
     }
 
-    private int getLeaderMaxLevel(String leaveType, String applicantType, Long duration) {
+    private Integer getLeaderMaxLevel(String leaveType, String applicantType, Long duration) {
         //get approval leader max level by rule
         ApprovalRule rule = new ApprovalRule();
         rule.setDuration(duration);
         rule.setLeaveType(leaveType);
         rule.setPersonType(applicantType);
-        return approvalRuleRepository.getLeaderMaxLevel(rule);
+        return approvalRuleRepository.findByRule(rule).getMaxLeaderLevel();
     }
 
     private Approver findNextApprover(String applicantId, Integer leaderMaxLevel) {
