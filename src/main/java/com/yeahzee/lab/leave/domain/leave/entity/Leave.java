@@ -27,9 +27,9 @@ public class Leave {
     Status status;
     Date startTime;
     Date endTime;
-    long duration;
+    Long duration;
     //审批领导的最大级别
-    int leaderMaxLevel;
+    Integer leaderMaxLevel;
     ApprovalInfo currentApprovalInfo;
     List<ApprovalInfo> historyApprovalInfos;
 

@@ -5,7 +5,7 @@ import com.yeahzee.lab.leave.domain.person.entity.Person;
 
 public interface IPersonRepository {
 
-    void insert(Person person);
+    void save(Person person);
 
     void update(Person person);
 
