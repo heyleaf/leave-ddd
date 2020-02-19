@@ -17,7 +17,7 @@ public class PersonRepositoryImpl implements IPersonRepository {
     PersonFactory personFactory;
 
     @Override
-    public void insert(Person person) {
+    public void save(Person person) {
         personDao.save(personFactory.createPersonPO(person));
     }
 

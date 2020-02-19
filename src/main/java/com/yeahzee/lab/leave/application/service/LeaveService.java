@@ -15,6 +15,7 @@ import com.yeahzee.lab.leave.infrastructure.repository.leave.po.LeavePO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class LeaveService {
      * 更新请假单基本信息
      * @param requestDTO
      */
-    public void updateLeaveBaseInfo(UpdateLeaveBaseInfoRequestDTO requestDTO) {
+    public void updateLeaveBaseInfo(UpdateLeaveBaseInfoRequestDTO requestDTO) throws ParseException {
         // 创建命令
         UpdateLeaveBaseInfoCmd cmd = new UpdateLeaveBaseInfoCmd(requestDTO.getLeaveId(),
                 requestDTO.getLeaveType(), requestDTO.getStartTime(),
@@ -67,9 +68,11 @@ public class LeaveService {
      * @param requestDTO
      */
     public void submitApproval(SubmitApprovalRequestDTO requestDTO) {
+        // TODO 通过远程服务获取全局ID
+        String approvalInfoId = "approvalInfoId";
         // 创建命令
         SubmitApprovalCmd cmd = new SubmitApprovalCmd(requestDTO.getLeaveId(),
-                requestDTO.getApprovalInfoId(),
+                approvalInfoId,
                 requestDTO.getMsg(), requestDTO.getTime(),
                 requestDTO.getApproverDTO().getPersonId(),
                 requestDTO.getApproverDTO().getPersonName(),
