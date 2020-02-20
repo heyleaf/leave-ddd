@@ -1,24 +1,19 @@
 package com.yeahzee.lab.leave.domain.command.handler;
 
-import com.yeahzee.lab.common.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreateLeaveCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.SubmitApprovalCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.UpdateLeaveBaseInfoCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.UpdateLeaveStatusCmd;
+import com.yeahzee.lab.leave.domain.leave.ILeaveDomainService;
 import com.yeahzee.lab.leave.domain.leave.entity.ApprovalInfo;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.ApprovalType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveType;
-import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Status;
-import com.yeahzee.lab.leave.domain.leave.event.ILeaveEventPublisher;
-import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
-import com.yeahzee.lab.leave.domain.leave.event.LeaveEventType;
-import com.yeahzee.lab.leave.domain.leave.repository.ILeaveRepository;
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
-import com.yeahzee.lab.leave.domain.person.repository.IPersonRepository;
-import com.yeahzee.lab.leave.domain.rule.entity.ApprovalRule;
-import com.yeahzee.lab.leave.domain.rule.repository.IApprovalRuleRepository;
+import com.yeahzee.lab.leave.domain.rule.IApprovalRuleDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,13 +23,11 @@ import java.text.ParseException;
 @Service
 public class LeaveCmdHandler {
     @Autowired
-    ILeaveRepository leaveRepository;
+    ILeaveDomainService leaveDomainService;
     @Autowired
-    IApprovalRuleRepository approvalRuleRepository;
+    IApprovalRuleDomainService approvalRuleDomainService;
     @Autowired
-    IPersonRepository personRepository;
-    @Autowired
-    ILeaveEventPublisher eventPublisher;
+    IPersonDomainService personDomainService;
 
     /**
      * 处理新建请假单命令
@@ -45,19 +38,13 @@ public class LeaveCmdHandler {
             // TODO 抛出异常
             System.out.println("请假单号不允许为空！");
         }
-        Integer leaderMaxLevel = getLeaderMaxLevel(cmd.getLeaveType(), cmd.getApplicantType(), cmd.getLeaveDuration());
+        Integer leaderMaxLevel = approvalRuleDomainService.getLeaderMaxLevel(cmd.getLeaveType(), cmd.getApplicantType(), cmd.getLeaveDuration());
         //find next approver
         Approver nextApprover = findNextApprover(cmd.getApplicantId(), leaderMaxLevel);
         Leave leave = new Leave();
         leave.setId(cmd.getLeaveId());
         leave.setType(leaveTypeConvert(cmd.getLeaveType()));
-        leave.setLeaderMaxLevel(leaderMaxLevel);
-        leave.setApprover(nextApprover);
-        leave.create();
-        leaveRepository.save(leave);
-        LeaveEvent event = LeaveEvent.create(LeaveEventType.CREATE_EVENT, leave);
-        leaveRepository.saveEvent(event);
-        eventPublisher.publish(event);
+        leaveDomainService.createLeave(leave, leaderMaxLevel, nextApprover);
     }
 
     /**
@@ -66,16 +53,13 @@ public class LeaveCmdHandler {
      */
     // TODO 如何处理那种CAS的情况？？
     public void handle(UpdateLeaveBaseInfoCmd cmd) throws ParseException {
-        Leave leave = leaveRepository.findById(cmd.getLeaveId());
-        if (null == leave) {
-            throw new RuntimeException("leave does not exist");
-        }
-        leave.setId(cmd.getLeaveId());
-        leave.setStartTime(DateUtil.parseDate(cmd.getStartTime()));
-        leave.setDuration(cmd.getDuration());
-        leave.setEndTime(DateUtil.parseDate(cmd.getEndTime()));
-        leave.setType(leaveTypeConvert(cmd.getLeaveType()));
-        leaveRepository.save(leave);
+        LeaveBaseInfo leaveBaseInfo = new LeaveBaseInfo();
+        leaveBaseInfo.setId(cmd.getLeaveId());
+        leaveBaseInfo.setStartTime(cmd.getStartTime());
+        leaveBaseInfo.setDuration(cmd.getDuration());
+        leaveBaseInfo.setEndTime(cmd.getEndTime());
+        leaveBaseInfo.setLeaveType(cmd.getLeaveType());
+        leaveDomainService.updateLeaveBaseInfo(leaveBaseInfo);
     }
 
     /**
@@ -83,7 +67,7 @@ public class LeaveCmdHandler {
      */
     public void handle(SubmitApprovalCmd cmd) {
         // 查询请假单信息
-        Leave leave = leaveRepository.findById(cmd.getLeaveId());
+        Leave leave = leaveDomainService.queryById(cmd.getLeaveId());
         if (leave == null) {
             // TODO 异常处理
             System.out.println("请假单不存在");
@@ -98,27 +82,7 @@ public class LeaveCmdHandler {
             approvalType = ApprovalType.REJECT;
         }
         approvalInfo.setApprovalType(approvalType);
-        // TODO 这段逻辑放哪里？？感觉是leave内部逻辑
-        LeaveEvent event;
-        if ( ApprovalType.REJECT == approvalInfo.getApprovalType()) {
-            //reject, then the leave is finished with REJECTED status
-            leave.reject(nextApprover);
-            event = LeaveEvent.create(LeaveEventType.REJECT_EVENT, leave);
-        } else {
-            if (nextApprover != null) {
-                //agree and has next approver
-                leave.agree(nextApprover);
-                event = LeaveEvent.create(LeaveEventType.AGREE_EVENT, leave);
-            } else {
-                //agree and hasn't next approver, then the leave is finished with APPROVED status
-                leave.finish();
-                event = LeaveEvent.create(LeaveEventType.APPROVED_EVENT, leave);
-            }
-        }
-        leave.addHistoryApprovalInfo(leave.getCurrentApprovalInfo());
-        leaveRepository.save(leave);
-        leaveRepository.saveEvent(event);
-        eventPublisher.publish(event);
+        leaveDomainService.submitApproval(leave, approvalInfo, nextApprover);
     }
 
     /**
@@ -126,42 +90,21 @@ public class LeaveCmdHandler {
      * @param cmd
      */
     public void handle(UpdateLeaveStatusCmd cmd) {
-        Leave leave = leaveRepository.findById(cmd.getLeaveId());
-        if (leave == null) {
-            // TODO 异常处理
-            System.out.println("请假单不存在！");
-        }
-        Status status = null;
-        if ("rejected".equals(cmd.getStatus())) {
-            status = Status.REJECTED;
-        } else {
-            status = Status.APPROVED;
-        }
-        leave.setStatus(status);
-        leaveRepository.save(leave);
-    }
-
-    private Integer getLeaderMaxLevel(String leaveType, String applicantType, Long duration) {
-        //get approval leader max level by rule
-        ApprovalRule rule = new ApprovalRule();
-        rule.setDuration(duration);
-        rule.setLeaveType(leaveType);
-        rule.setPersonType(applicantType);
-        return approvalRuleRepository.findByRule(rule).getMaxLeaderLevel();
+        leaveDomainService.updateLeaveStatus(cmd.getLeaveId(), cmd.getStatus());
     }
 
     private Approver findNextApprover(String applicantId, Integer leaderMaxLevel) {
         //find next approver
-        Approver nextApprover = new Approver();
-        Person leader = personRepository.findLeaderByPersonId(applicantId);
-        if (leader.getRoleLevel() > leaderMaxLevel) {
-            nextApprover = null;
+        Person leader = personDomainService.findNextApprover(applicantId, leaderMaxLevel);
+        if (leader == null) {
+            return null;
         } else {
+            Approver nextApprover = new Approver();
             nextApprover.setLevel(leader.getRoleLevel());
             nextApprover.setPersonName(leader.getPersonName());
             nextApprover.setPersonId(leader.getPersonId());
+            return nextApprover;
         }
-        return nextApprover;
     }
 
     private LeaveType leaveTypeConvert(String leaveType) {
