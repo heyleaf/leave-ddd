@@ -6,6 +6,7 @@ import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.ApprovalType;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Approver;
 import com.yeahzee.lab.leave.domain.leave.entity.valueobject.LeaveBaseInfo;
+import com.yeahzee.lab.leave.domain.leave.entity.valueobject.Status;
 import com.yeahzee.lab.leave.domain.leave.event.ILeaveEventPublisher;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEvent;
 import com.yeahzee.lab.leave.domain.leave.event.LeaveEventType;
@@ -104,7 +105,19 @@ public class LeaveDomainService implements ILeaveDomainService {
 
     @Override
     public void updateLeaveStatus(String leaveId, String status) {
-
+        Leave leave = leaveRepository.findById(leaveId);
+        if (leave == null) {
+            // TODO 异常处理
+            System.out.println("请假单不存在！");
+        }
+        Status s = null;
+        if ("rejected".equals(status)) {
+            s = Status.REJECTED;
+        } else {
+            s = Status.APPROVED;
+        }
+        leave.setStatus(s);
+        leaveRepository.save(leave);
     }
 
 

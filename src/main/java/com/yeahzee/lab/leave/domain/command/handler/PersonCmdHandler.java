@@ -2,9 +2,9 @@ package com.yeahzee.lab.leave.domain.command.handler;
 
 import com.yeahzee.lab.common.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreatePersonCmd;
+import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonType;
-import com.yeahzee.lab.leave.domain.person.repository.IPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.text.ParseException;
 public class PersonCmdHandler {
 
     @Autowired
-    IPersonRepository personRepository;
+    IPersonDomainService personDomainService;
 
     public void handle(CreatePersonCmd cmd) throws ParseException {
         Person person = new Person();
@@ -24,7 +24,6 @@ public class PersonCmdHandler {
         person.setPersonType(PersonType.EXTERNAL);
         person.setRoleLevel(Integer.valueOf(cmd.getRoleId()));
         person.setPersonId(cmd.getPersonId());
-        person.create();
-        personRepository.save(person);
+        personDomainService.create(person);
     }
 }
