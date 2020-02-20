@@ -1,7 +1,7 @@
 package com.yeahzee.lab.framework.application.service;
 
 /**
- * 应用层服务接口
+ * 实现读接口
  */
-public interface IAppService {
+public interface IQueryImplService {
 }
