@@ -1,4 +1,4 @@
-package com.yeahzee.lab.common.util;
+package com.yeahzee.lab.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,6 +1,5 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
-import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.dto.*;
 import com.yeahzee.lab.leave.application.service.LeaveService;
 import com.yeahzee.lab.leave.application.validate.LeaveRequestValidate;
@@ -10,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/leave")
@@ -38,8 +39,13 @@ public class LeaveController {
     @PostMapping(value = "/leave/updateBaseInfo")
     public Response updateLeaveBaseInfo(UpdateLeaveBaseInfoRequestDTO updateLeaveBaseInfoRequestDTO){
         LeaveRequestValidate.check(updateLeaveBaseInfoRequestDTO);
-        this.leaveService.updateLeaveBaseInfo(updateLeaveBaseInfoRequestDTO);
-        return Response.ok();
+        try {
+            this.leaveService.updateLeaveBaseInfo(updateLeaveBaseInfoRequestDTO);
+            return Response.ok();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return Response.ok();
+        }
     }
 
     /**

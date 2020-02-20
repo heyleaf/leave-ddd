@@ -71,7 +71,11 @@ public class LeaveDomainService implements ILeaveDomainService {
         if (null == leave) {
             throw new RuntimeException("leave does not exist");
         }
-        leaveRepository.saveLeaveBaseInfo(leaveBaseInfo);
+        leave.setEndTime(leaveBaseInfo.getEndTime());
+        leave.setStartTime(leaveBaseInfo.getStartTime());
+        leave.setType(leaveBaseInfo.getLeaveType());
+        leave.setDuration(leaveBaseInfo.getDuration());
+        leaveRepository.save(leave);
     }
 
     @Transactional

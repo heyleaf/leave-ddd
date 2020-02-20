@@ -1,5 +1,6 @@
-package com.yeahzee.lab.common.api;
+package com.yeahzee.lab.leave.interfaces.controller;
 
+import com.yeahzee.lab.framework.interfaces.controller.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Response {
+public class Response implements IResponse {
 
     Status status;
     String msg;

@@ -2,7 +2,7 @@ package com.yeahzee.lab.leave.application.assembler;
 
 
 import com.yeahzee.lab.api.dto.PersonDTO;
-import com.yeahzee.lab.common.util.DateUtil;
+import com.yeahzee.lab.util.DateUtil;
 import com.yeahzee.lab.leave.domain.person.entity.Person;
 import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonStatus;
 import com.yeahzee.lab.leave.domain.person.entity.valueobject.PersonType;
