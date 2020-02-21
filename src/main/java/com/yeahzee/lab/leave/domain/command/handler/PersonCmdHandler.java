@@ -1,6 +1,6 @@
 package com.yeahzee.lab.leave.domain.command.handler;
 
-import com.yeahzee.lab.common.util.DateUtil;
+import com.yeahzee.lab.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreatePersonCmd;
 import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
 import com.yeahzee.lab.leave.domain.person.entity.Person;

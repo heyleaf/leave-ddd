@@ -1,5 +1,6 @@
 package com.yeahzee.lab.leave.domain.command.handler;
 
+import com.yeahzee.lab.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreateLeaveCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.SubmitApprovalCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.UpdateLeaveBaseInfoCmd;
@@ -55,10 +56,10 @@ public class LeaveCmdHandler {
     public void handle(UpdateLeaveBaseInfoCmd cmd) throws ParseException {
         LeaveBaseInfo leaveBaseInfo = new LeaveBaseInfo();
         leaveBaseInfo.setId(cmd.getLeaveId());
-        leaveBaseInfo.setStartTime(cmd.getStartTime());
+        leaveBaseInfo.setStartTime(DateUtil.parseDateTime(cmd.getStartTime()));
         leaveBaseInfo.setDuration(cmd.getDuration());
-        leaveBaseInfo.setEndTime(cmd.getEndTime());
-        leaveBaseInfo.setLeaveType(cmd.getLeaveType());
+        leaveBaseInfo.setEndTime(DateUtil.parseDate(cmd.getEndTime()));
+        leaveBaseInfo.setLeaveType(leaveTypeConvert(cmd.getLeaveType()));
         leaveDomainService.updateLeaveBaseInfo(leaveBaseInfo);
     }
 

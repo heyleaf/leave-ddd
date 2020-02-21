@@ -1,6 +1,6 @@
 package com.yeahzee.lab.leave.application.service;
 
-import com.yeahzee.lab.common.event.CommandPublisher;
+import com.yeahzee.lab.framework.event.CommandPublisher;
 import com.yeahzee.lab.leave.application.assembler.LeaveAssembler;
 import com.yeahzee.lab.leave.application.dto.*;
 import com.yeahzee.lab.leave.domain.command.cmd.CreateLeaveCmd;

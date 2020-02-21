@@ -1,6 +1,5 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
-import com.yeahzee.lab.common.api.Response;
 import com.yeahzee.lab.leave.application.dto.CreatePersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonResponseDTO;

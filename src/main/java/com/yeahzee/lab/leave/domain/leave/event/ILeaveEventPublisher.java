@@ -1,6 +1,6 @@
 package com.yeahzee.lab.leave.domain.leave.event;
 
-import com.yeahzee.lab.common.event.DomainEvent;
+import com.yeahzee.lab.framework.event.DomainEvent;
 import org.springframework.stereotype.Service;
 
 /**

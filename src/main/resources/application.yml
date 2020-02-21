@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /api
+    context-path: /interfaces
   port: 8000
 spring:
   application:
