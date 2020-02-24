@@ -3,7 +3,7 @@ package com.yeahzee.lab.leave.domain.command.cmd;
 import lombok.Data;
 
 @Data
-public class UpdateLeaveBaseInfoCmd {
+public class UpdateLeaveBaseInfoCmd extends Command {
     String leaveId;
     String leaveType;
     String startTime;

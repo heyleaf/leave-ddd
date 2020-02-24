@@ -3,7 +3,7 @@ package com.yeahzee.lab.leave.domain.command.cmd;
 import lombok.Data;
 
 @Data
-public class CreatePersonCmd {
+public class CreatePersonCmd extends Command {
     String personId;
     String personName;
     String roleId;

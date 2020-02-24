@@ -1,7 +1,5 @@
 package com.yeahzee.lab.leave.domain.leave.event;
 
-import com.yeahzee.lab.framework.event.DomainEvent;
-
 /**
  * 领域事件
  *
