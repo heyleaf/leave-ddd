@@ -1,6 +1,5 @@
 package com.yeahzee.lab.leave.domain.command.cmd;
 
-import com.yeahzee.lab.framework.event.Command;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -1,7 +1,6 @@
 package com.yeahzee.lab.leave.domain.leave.event;
 
 import com.alibaba.fastjson.JSON;
-import com.yeahzee.lab.framework.event.DomainEvent;
 import com.yeahzee.lab.util.IdGenerator;
 import com.yeahzee.lab.leave.domain.leave.entity.Leave;
 import lombok.Data;

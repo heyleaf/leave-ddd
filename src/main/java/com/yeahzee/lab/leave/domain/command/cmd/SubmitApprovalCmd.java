@@ -3,7 +3,7 @@ package com.yeahzee.lab.leave.domain.command.cmd;
 import lombok.Data;
 
 @Data
-public class SubmitApprovalCmd {
+public class SubmitApprovalCmd extends Command {
     String leaveId;
     String approvalInfoId;
     String msg;
