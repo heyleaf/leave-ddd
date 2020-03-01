@@ -1,5 +1,6 @@
 package com.yeahzee.lab.leave.domain.command.handler;
 
+import com.yeahzee.lab.leave.domain.command.facade.IPersonCmdHandler;
 import com.yeahzee.lab.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreatePersonCmd;
 import com.yeahzee.lab.leave.domain.person.IPersonDomainService;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 
 @Service
-public class PersonCmdHandler {
+public class PersonCmdHandler implements IPersonCmdHandler {
 
     @Autowired
     IPersonDomainService personDomainService;

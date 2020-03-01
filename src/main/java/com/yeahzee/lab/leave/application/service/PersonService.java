@@ -3,8 +3,9 @@ package com.yeahzee.lab.leave.application.service;
 import com.yeahzee.lab.leave.application.dto.CreatePersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonResponseDTO;
+import com.yeahzee.lab.leave.application.facade.IPersonService;
 import com.yeahzee.lab.leave.domain.command.cmd.CreatePersonCmd;
-import com.yeahzee.lab.leave.domain.command.handler.PersonCmdHandler;
+import com.yeahzee.lab.leave.domain.command.facade.IPersonCmdHandler;
 import com.yeahzee.lab.leave.infrastructure.repository.person.mapper.PersonDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,13 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 
 @Service
-public class PersonService {
+public class PersonService implements IPersonService {
     @Autowired
-    PersonCmdHandler personCmdHandler;
+    IPersonCmdHandler personCmdHandler;
     @Autowired
     PersonDAO personDao;
 
+    @Override
     public void create(CreatePersonRequestDTO requestDTO) throws ParseException {
         // TODO 从其他微服务获取全局ID
         String personId = "personID";

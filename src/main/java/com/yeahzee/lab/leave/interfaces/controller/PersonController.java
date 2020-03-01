@@ -3,7 +3,7 @@ package com.yeahzee.lab.leave.interfaces.controller;
 import com.yeahzee.lab.leave.application.dto.CreatePersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonRequestDTO;
 import com.yeahzee.lab.leave.application.dto.GetPersonResponseDTO;
-import com.yeahzee.lab.leave.application.service.PersonService;
+import com.yeahzee.lab.leave.application.facade.IPersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.text.ParseException;
 public class PersonController {
 
     @Autowired
-    PersonService personService;
+    IPersonService personService;
 
 
     @PostMapping(value = "/query/createPerson")
