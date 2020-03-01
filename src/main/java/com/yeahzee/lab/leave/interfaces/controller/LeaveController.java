@@ -1,7 +1,7 @@
 package com.yeahzee.lab.leave.interfaces.controller;
 
 import com.yeahzee.lab.leave.application.dto.*;
-import com.yeahzee.lab.leave.application.service.LeaveService;
+import com.yeahzee.lab.leave.application.facade.ILeaveService;
 import com.yeahzee.lab.leave.application.validate.LeaveRequestValidate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.text.ParseException;
 public class LeaveController {
 
     @Autowired
-    LeaveService leaveService;
+    ILeaveService leaveService;
 
     /**
      * 新建请假单

@@ -1,5 +1,6 @@
 package com.yeahzee.lab.leave.domain.command.handler;
 
+import com.yeahzee.lab.leave.domain.command.facade.ILeaveCmdHandler;
 import com.yeahzee.lab.util.DateUtil;
 import com.yeahzee.lab.leave.domain.command.cmd.CreateLeaveCmd;
 import com.yeahzee.lab.leave.domain.command.cmd.SubmitApprovalCmd;
@@ -22,7 +23,7 @@ import org.springframework.util.StringUtils;
 import java.text.ParseException;
 
 @Service
-public class LeaveCmdHandler {
+public class LeaveCmdHandler implements ILeaveCmdHandler {
     @Autowired
     ILeaveDomainService leaveDomainService;
     @Autowired
